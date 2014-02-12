@@ -81,4 +81,4 @@ class CruisecontrolrbToHipchat < Sinatra::Base
   end
 end
 
-Sinatra::Application::run!
+# Sinatra::Application::run!
