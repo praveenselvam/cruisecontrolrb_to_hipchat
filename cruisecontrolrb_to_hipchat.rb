@@ -14,12 +14,12 @@ class CruisecontrolrbToHipchat < Sinatra::Base
   ENV["CC_USERNAME"] = "praveen"
   ENV["CC_PASSWORD"] = "lisyYAcx7mJj3"
   
-  ENV["HIPCHAT_AUTH_TOKEN"] = "eUl5nkzUkB3GqnLhisuN1KpmJTsJNhwYqEHMDFpd"
+  ENV["HIPCHAT_AUTH_TOKEN"] = "92e31b699b153614e36e54f6980aa9"
   ENV["HIPCHAT_ROOM_ID"] = "435492"
+
+  MASTER_STATS = {}
   
   scheduler = Rufus::Scheduler.start_new
-
-  puts "Starting scheduler..."
   
   scheduler.every("#{ENV["POLLING_INTERVAL"] || 10}s") do
 
@@ -33,12 +33,26 @@ class CruisecontrolrbToHipchat < Sinatra::Base
       result = status_hash["stage"]["result"]
       state = status_hash["stage"]["state"]
 
-      message = "#{pipeline_name}: #{state} #{result}"
+      old_status = MASTER_STATS[pipeline_name]
 
-      color = status_hash[:lastBuildStatus] == "Success" ? "green" : "red"
-          
-      puts "Posting: #{message}"
-      Hipchat.new.hip_post message, color
+      old_result = old_status.nil? ? "" : old_status["stage"]["result"]
+
+      if old_result != result
+
+        message = "#{pipeline_name}: <a href='#{status_hash["website_link"]}'>#{result}</a>"
+
+        color = result == "Passed" ? "green" : "red"
+            
+        puts "Posting: #{message}"
+        Hipchat.new.hip_post message, color
+
+      else
+
+        puts "Status has not changed"
+
+      end
+
+      MASTER_STATS[pipeline_name] = status_hash
 
     end
   end

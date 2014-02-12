@@ -9,6 +9,7 @@ class Hipchat
       "&message=#{URI.escape(message)}" +
       "&from=#{ENV["HIPCHAT_FROM"] || "cruise-control"}" +
       "&room_id=#{ENV["HIPCHAT_ROOM_ID"]}" + 
+      "&notify=1" + 
       "&color=#{color}")
   end
     

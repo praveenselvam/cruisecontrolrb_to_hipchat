@@ -22,7 +22,10 @@ class Pipeline
       :href => noko.search("entry").search("link").first.attributes["href"].value
     }
 
-    JSON.parse HTTParty.get(status_hash[:href], options).to_s.gsub("=>", ":")
+    res = JSON.parse HTTParty.get(status_hash[:href], options).to_s.gsub("=>", ":")
+    res["website_link"] = noko.search("entry").search("id").first.content
+
+    return res
   end
   
 end
