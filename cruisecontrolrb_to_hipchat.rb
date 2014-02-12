@@ -17,44 +17,67 @@ class CruisecontrolrbToHipchat < Sinatra::Base
   ENV["HIPCHAT_AUTH_TOKEN"] = "92e31b699b153614e36e54f6980aa9"
   ENV["HIPCHAT_ROOM_ID"] = "435492"
 
+  ROOMS = {
+    "Test Room 1" => "435492",
+    "Test Room 2" => "437773"
+  }
+
   MASTER_STATS = {}
+
+  COMMUNICATION_CONFIG = [{
+    "name" => "Business",
+    "rooms" => [ROOMS["Test Room 1"], ROOMS["Test Room 2"]]
+  },{
+    "name" => "FT",
+    "rooms" => [ROOMS["Test Room 1"], ROOMS["Test Room 2"]]
+  }]
   
   scheduler = Rufus::Scheduler.start_new
   
-  scheduler.every("#{ENV["POLLING_INTERVAL"] || 10}s") do
+  scheduler.every("#{ENV["POLLING_INTERVAL"] || 15}s") do
 
     puts "Scheduler fired"
-    
-    status_hash = Pipeline.new(ENV["CC_URL"], ENV["CC_USERNAME"] || "", ENV["CC_PASSWORD"] || "", "Deploy_Indix_Site_Staging").fetch
 
-    unless status_hash.empty?
+    COMMUNICATION_CONFIG.each do |pipeline|
 
-      pipeline_name = status_hash["stage"]["pipeline"]["name"]
-      result = status_hash["stage"]["result"]
-      state = status_hash["stage"]["state"]
+      puts "Checking #{pipeline["name"]}"
 
-      old_status = MASTER_STATS[pipeline_name]
+      status_hash = Pipeline.new(ENV["CC_URL"], ENV["CC_USERNAME"] || "", ENV["CC_PASSWORD"] || "", "#{pipeline["name"]}").fetch
 
-      old_result = old_status.nil? ? "" : old_status["stage"]["result"]
+      unless status_hash.empty?
 
-      if old_result != result
+        pipeline_name = status_hash["stage"]["pipeline"]["name"]
+        result = status_hash["stage"]["result"]
+        state = status_hash["stage"]["state"]
 
-        message = "#{pipeline_name}: <a href='#{status_hash["website_link"]}'>#{result}</a>"
+        old_status = MASTER_STATS[pipeline_name]
 
-        color = result == "Passed" ? "green" : "red"
-            
-        puts "Posting: #{message}"
-        Hipchat.new.hip_post message, color
+        old_result = old_status.nil? ? "" : old_status["stage"]["result"]
 
-      else
+        if old_result != result
 
-        puts "Status has not changed"
+          message = "#{pipeline_name}: <a href='#{status_hash["website_link"]}'>#{result}</a>"
+
+          color = result == "Passed" ? "green" : "red"
+              
+          puts "Posting: #{message}"
+
+          pipeline["rooms"].each do |room_id|
+            puts "Posting to #{room_id}"
+            Hipchat.new.hip_post room_id, message, color
+          end
+
+        else
+
+          puts "Status has not changed"
+
+        end
+
+        MASTER_STATS[pipeline_name] = status_hash
 
       end
-
-      MASTER_STATS[pipeline_name] = status_hash
-
     end
+    
   end
 end
 
