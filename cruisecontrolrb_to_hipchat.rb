@@ -34,7 +34,7 @@ class CruisecontrolrbToHipchat < Sinatra::Base
   
   scheduler = Rufus::Scheduler.start_new
   
-  scheduler.every("#{ENV["POLLING_INTERVAL"] || 15}s") do
+  scheduler.every("#{ENV["POLLING_INTERVAL"] || 1}m") do
 
     puts "Scheduler fired"
 
