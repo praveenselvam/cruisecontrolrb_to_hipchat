@@ -13,7 +13,7 @@ class Cruisecontrolrb
   def fetch
     options = { :basic_auth => @auth }
 
-    noko = Nokogiri::XML(self.class.get("http://#{@base_url}/XmlStatusReport.aspx", options).parsed_response)
+    noko = Nokogiri::XML(self.class.get("#{@base_url}", options).parsed_response)
 
     return {} unless noko.search("Project").first
     
