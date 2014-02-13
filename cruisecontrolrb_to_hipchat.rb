@@ -5,6 +5,8 @@ require "./pipeline"
 require "./hipchat"
 require 'rufus-scheduler'
 
+# set :port, 9494
+
 class CruisecontrolrbToHipchat < Sinatra::Base
     
   attr_accessor :status
@@ -30,89 +32,110 @@ class CruisecontrolrbToHipchat < Sinatra::Base
 
   MASTER_STATS = {}
 
+  COMMUNICATION_TO_CONFIGURE = [{
+    "pipeline_name" => "Service-Analytics",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "pipeline_name" => "BG-Deploy-Staging",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "pipeline_name" => "Analytics-Refresh-Production",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "pipeline_name" => "BG-Data-Refresh-Production",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "pipeline_name" => "BG-Deploy-Production",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "pipeline_name" => "Services",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "pipeline_name" => "Analytics-Refresh-FT",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "pipeline_name" => "Deploy-Promotions-Production",
+    "rooms" => [ROOMS["Test App"]]
+  },{
+    "pipeline_name" => "BG-Data-Refresh-Staging",
+    "rooms" => [ROOMS["Test Analytics"]]
+  }]
+
   COMMUNICATION_CONFIG = [{
-    "name" => "Business",
+    "pipeline_name" => "Business",
+    "stage_name" => "dev",
     "rooms" => [ROOMS["Test AAA"]]
   },{
-    "name" => "FT",
+    "pipeline_name" => "FT",
+    "stage_name" => "business-ft",
     "rooms" => [ROOMS["Test AAA"]]
   },{
-    "name" => "Service-Analytics",
+    "pipeline_name" => "Cosmos-Data",
+    "stage_name" => "push-data",
     "rooms" => [ROOMS["Test AAA"]]
   },{
-    "name" => "Cosmos-Data",
+    "pipeline_name" => "SavedList-Export-Staging",
+    "stage_name" => "export",
     "rooms" => [ROOMS["Test AAA"]]
   },{
-    "name" => "SavedList-Export-Staging",
+    "pipeline_name" => "CustomList_Verify_And_Notify",
+    "stage_name" => "run",
     "rooms" => [ROOMS["Test AAA"]]
   },{
-    "name" => "CustomList_Verify_And_Notify",
+    "pipeline_name" => "SavedList-Export-Prod",
+    "stage_name" => "export",
     "rooms" => [ROOMS["Test AAA"]]
   },{
-    "name" => "BG-Deploy-Staging",
+    "pipeline_name" => "Production-Mongo-Backup",
+    "stage_name" => "backup-mongo",
     "rooms" => [ROOMS["Test AAA"]]
   },{
-    "name" => "SavedList-Export-Prod",
+    "pipeline_name" => "Staging-Mongo-Backup",
+    "stage_name" => "backup-mongo",
     "rooms" => [ROOMS["Test AAA"]]
   },{
-    "name" => "Analytics-Refresh-Production",
+    "pipeline_name" => "Cosmos",
+    "stage_name" => "dev",
     "rooms" => [ROOMS["Test AAA"]]
   },{
-    "name" => "BG-Data-Refresh-Production",
+    "pipeline_name" => "Oogway",
+    "stage_name" => "Test",
     "rooms" => [ROOMS["Test AAA"]]
   },{
-    "name" => "BG-Deploy-Production",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "name" => "Production-Mongo-Backup",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "name" => "Staging-Mongo-Backup",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "name" => "Services",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "name" => "Cosmos",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "name" => "Oogway",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "name" => "Analytics-Refresh-FT",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "name" => "Promotions",
+    "pipeline_name" => "Promotions",
+    "stage_name" => "push-data",
     "rooms" => [ROOMS["Test App"]]
   },{
-    "name" => "Deploy-Promotions-Staging",
+    "pipeline_name" => "Deploy-Promotions-Staging",
+    "stage_name" => "deploy-all-promotions",
     "rooms" => [ROOMS["Test App"]]
   },{
-    "name" => "Deploy-API-Signup",
+    "pipeline_name" => "Deploy-API-Signup",
+    "stage_name" => "deploy",
     "rooms" => [ROOMS["Test App"]]
   },{
-    "name" => "Deploy-Promotions-Production",
+    "pipeline_name" => "Deploy-API-Signup-Production",
+    "stage_name" => "deploy-all-promotions",
     "rooms" => [ROOMS["Test App"]]
   },{
-    "name" => "Deploy-API-Signup-Production",
+    "pipeline_name" => "Cosmos-App",
+    "stage_name" => "deploy-all",
     "rooms" => [ROOMS["Test App"]]
   },{
-    "name" => "Cosmos-App",
-    "rooms" => [ROOMS["Test App"]]
-  },{
-    "name" => "Jobs-Analytics",
+    "pipeline_name" => "Jobs-Analytics",
+    "stage_name" => "Test",
     "rooms" => [ROOMS["Test Analytics"]]
   },{
-    "name" => "Apeiron",
+    "pipeline_name" => "Apeiron",
+    "stage_name" => "Test",
     "rooms" => [ROOMS["Test Analytics"]]
   },{
-    "name" => "BG-Data-Refresh-Staging",
+    "pipeline_name" => "Analytics-Production-Backup",
+    "stage_name" => "backup-solr",
     "rooms" => [ROOMS["Test Analytics"]]
   },{
-    "name" => "Analytics-Production-Backup",
-    "rooms" => [ROOMS["Test Analytics"]]
-  },{
-    "name" => "Deploy-Pi",
+    "pipeline_name" => "Deploy-Pi",
+    "stage_name" => "deploy-pi",
     "rooms" => [ROOMS["Product Score"]]
   }]
 
@@ -122,13 +145,11 @@ class CruisecontrolrbToHipchat < Sinatra::Base
 
     puts "New Scheduler created"
 
-    scheduler.every("#{ENV["POLLING_INTERVAL"] || 30}s") do
+    scheduler.every("#{ENV["POLLING_INTERVAL"] || 1}m") do
 
-      puts "Scheduler fired"
+      puts "Checking #{pipeline["pipeline_name"]} - #{pipeline["stage_name"]}"
 
-      puts "Checking #{pipeline["name"]}"
-
-      status_hash = Pipeline.new(ENV["CC_URL"], ENV["CC_USERNAME"] || "", ENV["CC_PASSWORD"] || "", "#{pipeline["name"]}").fetch
+      status_hash = Pipeline.new(ENV["CC_URL"], ENV["CC_USERNAME"] || "", ENV["CC_PASSWORD"] || "", "#{pipeline["pipeline_name"]}", "#{pipeline["stage_name"]}").fetch
 
       unless status_hash.empty?
 
@@ -145,11 +166,9 @@ class CruisecontrolrbToHipchat < Sinatra::Base
           message = "#{pipeline_name}: <a href='#{status_hash["website_link"]}'>#{result}</a>"
 
           color = result == "Passed" ? "green" : "red"
-              
-          puts "Posting: #{message}"
 
           pipeline["rooms"].each do |room_id|
-            puts "Posting to #{room_id}"
+            puts "Posting to #{room_id} - #{message}"
             # Hipchat.new.hip_post room_id, message, color
           end
 
@@ -163,6 +182,8 @@ class CruisecontrolrbToHipchat < Sinatra::Base
 
       end
     end
+
+    sleep 2
     
   end
 
