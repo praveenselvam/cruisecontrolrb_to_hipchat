@@ -81,6 +81,10 @@ class CruisecontrolrbToHipchat < Sinatra::Base
     end
     
   end
+
+  get "/" do
+    "ROAR!!!"
+  end
 end
 
 get "/" do
