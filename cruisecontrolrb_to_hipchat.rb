@@ -18,29 +18,102 @@ class CruisecontrolrbToHipchat < Sinatra::Base
   ENV["HIPCHAT_FROM"] = "Auto-Warden"
 
   ROOMS = {
-    "GO Integration test" => "435492",
-    "Another Integration Test" => "437773",
+    "Test AAA" => "437773",
+    "Test Analytics" => "439156",
+    "Test App" => "435492",
+
     "EE3-Production-Bug-Fixes" => "433748",
-    "Product Score" => "433742"
-  }
+    "Product Score" => "433742",
+    "Analytics" => "225998",
+    "App" => "439155"
+  } 
 
   MASTER_STATS = {}
 
   COMMUNICATION_CONFIG = [{
     "name" => "Business",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+    "rooms" => [ROOMS["Test AAA"]]
   },{
     "name" => "FT",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+    "rooms" => [ROOMS["Test AAA"]]
   },{
     "name" => "Service-Analytics",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "Cosmos-Data",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "SavedList-Export-Staging",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "CustomList_Verify_And_Notify",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "BG-Deploy-Staging",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "SavedList-Export-Prod",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "Analytics-Refresh-Production",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "BG-Data-Refresh-Production",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "BG-Deploy-Production",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "Production-Mongo-Backup",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "Staging-Mongo-Backup",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "Services",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "Cosmos",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "Oogway",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "Analytics-Refresh-FT",
+    "rooms" => [ROOMS["Test AAA"]]
+  },{
+    "name" => "Promotions",
+    "rooms" => [ROOMS["Test App"]]
+  },{
+    "name" => "Deploy-Promotions-Staging",
+    "rooms" => [ROOMS["Test App"]]
+  },{
+    "name" => "Deploy-API-Signup",
+    "rooms" => [ROOMS["Test App"]]
+  },{
+    "name" => "Deploy-Promotions-Production",
+    "rooms" => [ROOMS["Test App"]]
+  },{
+    "name" => "Deploy-API-Signup-Production",
+    "rooms" => [ROOMS["Test App"]]
+  },{
+    "name" => "Cosmos-App",
+    "rooms" => [ROOMS["Test App"]]
   },{
     "name" => "Jobs-Analytics",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+    "rooms" => [ROOMS["Test Analytics"]]
   },{
     "name" => "Apeiron",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+    "rooms" => [ROOMS["Test Analytics"]]
+  },{
+    "name" => "BG-Data-Refresh-Staging",
+    "rooms" => [ROOMS["Test Analytics"]]
+  },{
+    "name" => "Analytics-Production-Backup",
+    "rooms" => [ROOMS["Test Analytics"]]
+  },{
+    "name" => "Deploy-Pi",
+    "rooms" => [ROOMS["Product Score"]]
   }]
 
   COMMUNICATION_CONFIG.each do |pipeline|
