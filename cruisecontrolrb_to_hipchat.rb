@@ -32,6 +32,15 @@ class CruisecontrolrbToHipchat < Sinatra::Base
   },{
     "name" => "FT",
     "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+  },{
+    "name" => "Service-Analytics",
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+  },{
+    "name" => "Jobs-Analytics",
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+  },{
+    "name" => "Apeiron",
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   }]
 
   COMMUNICATION_CONFIG.each do |pipeline|
