@@ -128,12 +128,6 @@ COMMUNICATION_CONFIG = [{
   "rooms" => [ROOMS["Product Score"]]
 }]
 
-COMMUNICATION_CONFIG = [{
-  "pipeline_name" => "Business",
-  "stage_name" => "dev",
-  "rooms" => [ROOMS["Test"]]
-}]
-
 class CruisecontrolrbToHipchat < Sinatra::Base
     
   attr_accessor :status
