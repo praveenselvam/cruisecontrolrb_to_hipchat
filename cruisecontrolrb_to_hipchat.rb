@@ -64,75 +64,75 @@ class CruisecontrolrbToHipchat < Sinatra::Base
   COMMUNICATION_CONFIG = [{
     "pipeline_name" => "Business",
     "stage_name" => "dev",
-    "rooms" => [ROOMS["Test AAA"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   },{
     "pipeline_name" => "FT",
     "stage_name" => "business-ft",
-    "rooms" => [ROOMS["Test AAA"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   },{
     "pipeline_name" => "Cosmos-Data",
     "stage_name" => "push-data",
-    "rooms" => [ROOMS["Test AAA"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   },{
     "pipeline_name" => "SavedList-Export-Staging",
     "stage_name" => "export",
-    "rooms" => [ROOMS["Test AAA"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   },{
     "pipeline_name" => "CustomList_Verify_And_Notify",
     "stage_name" => "run",
-    "rooms" => [ROOMS["Test AAA"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   },{
     "pipeline_name" => "SavedList-Export-Prod",
     "stage_name" => "export",
-    "rooms" => [ROOMS["Test AAA"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   },{
     "pipeline_name" => "Production-Mongo-Backup",
     "stage_name" => "backup-mongo",
-    "rooms" => [ROOMS["Test AAA"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   },{
     "pipeline_name" => "Staging-Mongo-Backup",
     "stage_name" => "backup-mongo",
-    "rooms" => [ROOMS["Test AAA"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   },{
     "pipeline_name" => "Cosmos",
     "stage_name" => "dev",
-    "rooms" => [ROOMS["Test AAA"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   },{
     "pipeline_name" => "Oogway",
     "stage_name" => "Test",
-    "rooms" => [ROOMS["Test AAA"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   },{
     "pipeline_name" => "Promotions",
     "stage_name" => "push-data",
-    "rooms" => [ROOMS["Test App"]]
+    "rooms" => [ROOMS["App"]]
   },{
     "pipeline_name" => "Deploy-Promotions-Staging",
     "stage_name" => "deploy-all-promotions",
-    "rooms" => [ROOMS["Test App"]]
+    "rooms" => [ROOMS["App"]]
   },{
     "pipeline_name" => "Deploy-API-Signup",
     "stage_name" => "deploy",
-    "rooms" => [ROOMS["Test App"]]
+    "rooms" => [ROOMS["App"]]
   },{
     "pipeline_name" => "Deploy-API-Signup-Production",
     "stage_name" => "deploy",
-    "rooms" => [ROOMS["Test App"]]
+    "rooms" => [ROOMS["App"]]
   },{
     "pipeline_name" => "Cosmos-App",
     "stage_name" => "deploy-all",
-    "rooms" => [ROOMS["Test App"]]
+    "rooms" => [ROOMS["App"]]
   },{
     "pipeline_name" => "Jobs-Analytics",
     "stage_name" => "Test",
-    "rooms" => [ROOMS["Test Analytics"]]
+    "rooms" => [ROOMS["Analytics"]]
   },{
     "pipeline_name" => "Apeiron",
     "stage_name" => "Test",
-    "rooms" => [ROOMS["Test Analytics"]]
+    "rooms" => [ROOMS["Analytics"]]
   },{
     "pipeline_name" => "Analytics-Production-Backup",
     "stage_name" => "backup-solr",
-    "rooms" => [ROOMS["Test Analytics"]]
+    "rooms" => [ROOMS["Analytics"]]
   },{
     "pipeline_name" => "Deploy-Pi",
     "stage_name" => "deploy-pi",
