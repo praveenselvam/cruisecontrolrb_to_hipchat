@@ -18,18 +18,20 @@ class CruisecontrolrbToHipchat < Sinatra::Base
   ENV["HIPCHAT_FROM"] = "Auto-Warden"
 
   ROOMS = {
-    "Test Room 1" => "435492",
-    "Test Room 2" => "437773"
+    "GO Integration test" => "435492",
+    "Another Integration Test" => "437773",
+    "EE3-Production-Bug-Fixes" => "433748",
+    "Product Score" => "433742"
   }
 
   MASTER_STATS = {}
 
   COMMUNICATION_CONFIG = [{
     "name" => "Business",
-    "rooms" => [ROOMS["Test Room 1"], ROOMS["Test Room 2"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   },{
     "name" => "FT",
-    "rooms" => [ROOMS["Test Room 1"], ROOMS["Test Room 2"]]
+    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
   }]
 
   COMMUNICATION_CONFIG.each do |pipeline|
