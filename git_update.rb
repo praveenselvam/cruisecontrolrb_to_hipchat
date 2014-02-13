@@ -18,7 +18,9 @@ GIT_COMMUNICATION_CONFIG = {
   "indix.com" => [ROOMS["UI"]],
   "apeiron" => [ROOMS["Analytics"]],
   "analytics-service" => [ROOMS["Analytics"]],
-  "analytics-jobs" => [ROOMS["Analytics"]]
+  "analytics-jobs" => [ROOMS["Analytics"]],
+  "oogway" => [ROOMS["Analytics"]],
+  "tao" => [ROOMS["Analytics"]]
 }
 
 class GitUpdate
