@@ -82,7 +82,7 @@ class CruisecontrolrbToHipchat < Sinatra::Base
 
         else
 
-          puts "Status has not changed"
+          puts "#{pipeline_name}: Status has not changed"
 
         end
 
