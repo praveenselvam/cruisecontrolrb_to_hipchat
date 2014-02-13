@@ -3,9 +3,136 @@ require "sinatra/base"
 require "./cruisecontrolrb"
 require "./pipeline"
 require "./hipchat"
+require "./git_update"
 require 'rufus-scheduler'
 
 # set :port, 9494
+
+ROOMS = {
+  "Test AAA" => "437773",
+  "Test Analytics" => "439156",
+  "Test App" => "435492",
+  "Git Integ Test" => "439499",
+
+  "EE3-Production-Bug-Fixes" => "433748",
+  "Product Score" => "433742",
+  "Analytics" => "225998",
+  "App" => "439155",
+  "UI" => "225942"
+} 
+
+COMMUNICATION_TO_CONFIGURE = [{
+  "pipeline_name" => "Service-Analytics",
+  "rooms" => [ROOMS["Test AAA"]]
+},{
+  "pipeline_name" => "BG-Deploy-Staging",
+  "rooms" => [ROOMS["Test AAA"]]
+},{
+  "pipeline_name" => "Analytics-Refresh-Production",
+  "rooms" => [ROOMS["Test AAA"]]
+},{
+  "pipeline_name" => "BG-Data-Refresh-Production",
+  "rooms" => [ROOMS["Test AAA"]]
+},{
+  "pipeline_name" => "BG-Deploy-Production",
+  "rooms" => [ROOMS["Test AAA"]]
+},{
+  "pipeline_name" => "Services",
+  "rooms" => [ROOMS["Test AAA"]]
+},{
+  "pipeline_name" => "Analytics-Refresh-FT",
+  "rooms" => [ROOMS["Test AAA"]]
+},{
+  "pipeline_name" => "Deploy-Promotions-Production",
+  "rooms" => [ROOMS["Test App"]]
+},{
+  "pipeline_name" => "BG-Data-Refresh-Staging",
+  "rooms" => [ROOMS["Test Analytics"]]
+}]
+
+COMMUNICATION_CONFIG = [{
+  "pipeline_name" => "Business",
+  "stage_name" => "dev",
+  "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+},{
+  "pipeline_name" => "FT",
+  "stage_name" => "api-ft",
+  "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+},{
+  "pipeline_name" => "Cosmos-Data",
+  "stage_name" => "push-data",
+  "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+},{
+  "pipeline_name" => "SavedList-Export-Staging",
+  "stage_name" => "export",
+  "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+},{
+  "pipeline_name" => "CustomList_Verify_And_Notify",
+  "stage_name" => "run",
+  "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+},{
+  "pipeline_name" => "SavedList-Export-Prod",
+  "stage_name" => "export",
+  "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+},{
+  "pipeline_name" => "Production-Mongo-Backup",
+  "stage_name" => "backup-mongo",
+  "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+},{
+  "pipeline_name" => "Staging-Mongo-Backup",
+  "stage_name" => "backup-mongo",
+  "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+},{
+  "pipeline_name" => "Cosmos",
+  "stage_name" => "dev",
+  "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+},{
+  "pipeline_name" => "Oogway",
+  "stage_name" => "Test",
+  "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
+},{
+  "pipeline_name" => "Promotions",
+  "stage_name" => "push-data",
+  "rooms" => [ROOMS["App"]]
+},{
+  "pipeline_name" => "Deploy-Promotions-Staging",
+  "stage_name" => "deploy-all-promotions",
+  "rooms" => [ROOMS["App"]]
+},{
+  "pipeline_name" => "Deploy-API-Signup",
+  "stage_name" => "deploy",
+  "rooms" => [ROOMS["App"]]
+},{
+  "pipeline_name" => "Deploy-API-Signup-Production",
+  "stage_name" => "deploy",
+  "rooms" => [ROOMS["App"]]
+},{
+  "pipeline_name" => "Cosmos-App",
+  "stage_name" => "deploy-all",
+  "rooms" => [ROOMS["App"]]
+},{
+  "pipeline_name" => "Jobs-Analytics",
+  "stage_name" => "Test",
+  "rooms" => [ROOMS["Analytics"]]
+},{
+  "pipeline_name" => "Apeiron",
+  "stage_name" => "Test",
+  "rooms" => [ROOMS["Analytics"]]
+},{
+  "pipeline_name" => "Analytics-Production-Backup",
+  "stage_name" => "backup-solr",
+  "rooms" => [ROOMS["Analytics"]]
+},{
+  "pipeline_name" => "Deploy-Pi",
+  "stage_name" => "deploy-pi",
+  "rooms" => [ROOMS["Product Score"]]
+}]
+
+COMMUNICATION_CONFIG = [{
+  "pipeline_name" => "Business",
+  "stage_name" => "dev",
+  "rooms" => [ROOMS["Test"]]
+}]
 
 class CruisecontrolrbToHipchat < Sinatra::Base
     
@@ -19,125 +146,7 @@ class CruisecontrolrbToHipchat < Sinatra::Base
   ENV["HIPCHAT_AUTH_TOKEN"] = "92e31b699b153614e36e54f6980aa9"
   ENV["HIPCHAT_FROM"] = "Auto-Warden"
 
-  ROOMS = {
-    "Test AAA" => "437773",
-    "Test Analytics" => "439156",
-    "Test App" => "435492",
-
-    "EE3-Production-Bug-Fixes" => "433748",
-    "Product Score" => "433742",
-    "Analytics" => "225998",
-    "App" => "439155"
-  } 
-
   MASTER_STATS = {}
-
-  COMMUNICATION_TO_CONFIGURE = [{
-    "pipeline_name" => "Service-Analytics",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "pipeline_name" => "BG-Deploy-Staging",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "pipeline_name" => "Analytics-Refresh-Production",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "pipeline_name" => "BG-Data-Refresh-Production",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "pipeline_name" => "BG-Deploy-Production",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "pipeline_name" => "Services",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "pipeline_name" => "Analytics-Refresh-FT",
-    "rooms" => [ROOMS["Test AAA"]]
-  },{
-    "pipeline_name" => "Deploy-Promotions-Production",
-    "rooms" => [ROOMS["Test App"]]
-  },{
-    "pipeline_name" => "BG-Data-Refresh-Staging",
-    "rooms" => [ROOMS["Test Analytics"]]
-  }]
-
-  COMMUNICATION_CONFIG = [{
-    "pipeline_name" => "Business",
-    "stage_name" => "dev",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
-  },{
-    "pipeline_name" => "FT",
-    "stage_name" => "business-ft",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
-  },{
-    "pipeline_name" => "Cosmos-Data",
-    "stage_name" => "push-data",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
-  },{
-    "pipeline_name" => "SavedList-Export-Staging",
-    "stage_name" => "export",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
-  },{
-    "pipeline_name" => "CustomList_Verify_And_Notify",
-    "stage_name" => "run",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
-  },{
-    "pipeline_name" => "SavedList-Export-Prod",
-    "stage_name" => "export",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
-  },{
-    "pipeline_name" => "Production-Mongo-Backup",
-    "stage_name" => "backup-mongo",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
-  },{
-    "pipeline_name" => "Staging-Mongo-Backup",
-    "stage_name" => "backup-mongo",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
-  },{
-    "pipeline_name" => "Cosmos",
-    "stage_name" => "dev",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
-  },{
-    "pipeline_name" => "Oogway",
-    "stage_name" => "Test",
-    "rooms" => [ROOMS["EE3-Production-Bug-Fixes"]]
-  },{
-    "pipeline_name" => "Promotions",
-    "stage_name" => "push-data",
-    "rooms" => [ROOMS["App"]]
-  },{
-    "pipeline_name" => "Deploy-Promotions-Staging",
-    "stage_name" => "deploy-all-promotions",
-    "rooms" => [ROOMS["App"]]
-  },{
-    "pipeline_name" => "Deploy-API-Signup",
-    "stage_name" => "deploy",
-    "rooms" => [ROOMS["App"]]
-  },{
-    "pipeline_name" => "Deploy-API-Signup-Production",
-    "stage_name" => "deploy",
-    "rooms" => [ROOMS["App"]]
-  },{
-    "pipeline_name" => "Cosmos-App",
-    "stage_name" => "deploy-all",
-    "rooms" => [ROOMS["App"]]
-  },{
-    "pipeline_name" => "Jobs-Analytics",
-    "stage_name" => "Test",
-    "rooms" => [ROOMS["Analytics"]]
-  },{
-    "pipeline_name" => "Apeiron",
-    "stage_name" => "Test",
-    "rooms" => [ROOMS["Analytics"]]
-  },{
-    "pipeline_name" => "Analytics-Production-Backup",
-    "stage_name" => "backup-solr",
-    "rooms" => [ROOMS["Analytics"]]
-  },{
-    "pipeline_name" => "Deploy-Pi",
-    "stage_name" => "deploy-pi",
-    "rooms" => [ROOMS["Product Score"]]
-  }]
 
   COMMUNICATION_CONFIG.each do |pipeline|
 
@@ -170,7 +179,7 @@ class CruisecontrolrbToHipchat < Sinatra::Base
             color = result == "Passed" ? "green" : "red"
             pipeline["rooms"].each do |room_id|
               puts "Posting to #{room_id} - #{message}"
-              Hipchat.new.hip_post room_id, message, color
+              Hipchat.new.hip_post room_id, message, color, 1
             end
           end
         else
@@ -189,10 +198,10 @@ class CruisecontrolrbToHipchat < Sinatra::Base
   get "/" do
     "ROAR!!!"
   end
-end
 
-get "/" do
-  "ROAR!!!"
+  post '/git_update' do
+    GitUpdate.new.notify(JSON.parse(params[:payload]))
+  end
 end
 
 # Sinatra::Application::run!
