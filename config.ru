@@ -7,3 +7,6 @@ Bundler.require
 require "./cruisecontrolrb_to_hipchat"
 
 run CruisecontrolrbToHipchat
+
+$stdout.sync = true
+config.logger = Logger.new(STDOUT)
