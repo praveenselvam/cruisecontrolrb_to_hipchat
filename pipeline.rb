@@ -23,8 +23,6 @@ class Pipeline
       :feed_url => noko.search("entry/link[@title='#{@stage_name} Stage Detail']").first.attributes["href"]
     }
 
-    puts status_hash[:feed_url]
-
     stage_info = JSON.parse HTTParty.get(status_hash[:feed_url], options).to_s.gsub("=>", ":")
     stage_info["website_link"] = "#{@base_url}go/pipelines/#{@pipeline_name}/#{stage_info["stage"]["pipeline"]["label"]}/#{@stage_name}/#{stage_info["stage"]["counter"]}"
 
