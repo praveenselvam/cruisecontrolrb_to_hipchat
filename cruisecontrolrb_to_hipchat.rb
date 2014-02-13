@@ -15,7 +15,7 @@ class CruisecontrolrbToHipchat < Sinatra::Base
   ENV["CC_PASSWORD"] = "lisyYAcx7mJj3"
   
   ENV["HIPCHAT_AUTH_TOKEN"] = "92e31b699b153614e36e54f6980aa9"
-  ENV["HIPCHAT_FROM"] = "The-Warden"
+  ENV["HIPCHAT_FROM"] = "Auto-Warden"
 
   ROOMS = {
     "Test Room 1" => "435492",
