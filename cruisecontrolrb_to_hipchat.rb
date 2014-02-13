@@ -77,7 +77,7 @@ class CruisecontrolrbToHipchat < Sinatra::Base
 
           pipeline["rooms"].each do |room_id|
             puts "Posting to #{room_id}"
-            Hipchat.new.hip_post room_id, message, color
+            # Hipchat.new.hip_post room_id, message, color
           end
 
         else
