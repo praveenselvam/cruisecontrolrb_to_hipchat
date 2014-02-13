@@ -143,7 +143,7 @@ class CruisecontrolrbToHipchat < Sinatra::Base
 
     scheduler = Rufus::Scheduler.start_new
 
-    puts "New Scheduler created"
+    puts "New Scheduler created for #{pipeline["pipeline_name"]}"
 
     scheduler.every("#{ENV["POLLING_INTERVAL"] || 1}m") do
 
@@ -158,24 +158,23 @@ class CruisecontrolrbToHipchat < Sinatra::Base
         state = status_hash["stage"]["state"]
 
         old_status = MASTER_STATS[pipeline_name]
-
+        # Don't post the very first time.
+        first_status = old_status.nil? ? true : false
         old_result = old_status.nil? ? "" : old_status["stage"]["result"]
 
         if old_result != result
-
-          message = "#{pipeline_name}: <a href='#{status_hash["website_link"]}'>#{result}</a>"
-
-          color = result == "Passed" ? "green" : "red"
-
-          pipeline["rooms"].each do |room_id|
-            puts "Posting to #{room_id} - #{message}"
-            # Hipchat.new.hip_post room_id, message, color
+          if first_status == true
+            puts "#{pipeline_name}: #{result} [Not posting first time status]"
+          else
+            message = "#{pipeline_name}: <a href='#{status_hash["website_link"]}'>#{result}</a>"
+            color = result == "Passed" ? "green" : "red"
+            pipeline["rooms"].each do |room_id|
+              puts "Posting to #{room_id} - #{message}"
+              # Hipchat.new.hip_post room_id, message, color
+            end
           end
-
         else
-
           puts "#{pipeline_name}: Status has not changed"
-
         end
 
         MASTER_STATS[pipeline_name] = status_hash
