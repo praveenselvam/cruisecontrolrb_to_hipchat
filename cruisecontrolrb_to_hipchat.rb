@@ -115,7 +115,7 @@ class CruisecontrolrbToHipchat < Sinatra::Base
     "rooms" => [ROOMS["Test App"]]
   },{
     "pipeline_name" => "Deploy-API-Signup-Production",
-    "stage_name" => "deploy-all-promotions",
+    "stage_name" => "deploy",
     "rooms" => [ROOMS["Test App"]]
   },{
     "pipeline_name" => "Cosmos-App",
