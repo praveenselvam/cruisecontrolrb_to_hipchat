@@ -1,5 +1,4 @@
 require 'httparty'
-require 'active_support/inflector'
 
 ROOMS = {
   "Test AAA" => "437773",
@@ -25,7 +24,7 @@ class GitUpdate
     commiter = payload["pusher"]["name"]
     repo_name = payload["repository"]["name"]
     commit_counts = payload["commits"].length
-    message = "#{commiter} pushed #{commit_counts} #{"commit".pluralize(commit_counts)} to #{repo_name}"
+    message = "#{commiter} pushed #{commit_counts} #{commit_counts > 1 ? "commits" : "commit"} to #{repo_name}"
     payload["commits"].each do |commit|
       commit_message = commit["message"]
       commit_hash = commit["id"][0..9]
