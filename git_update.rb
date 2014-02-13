@@ -15,7 +15,7 @@ ROOMS = {
 } 
 
 GIT_COMMUNICATION_CONFIG = {
-  "business" => [ROOMS["App"], ROOMS["UI"]]
+  "business" => [ROOMS["App"], ROOMS["UI"]],
   "indix.com" => [ROOMS["UI"]]
 }
 
