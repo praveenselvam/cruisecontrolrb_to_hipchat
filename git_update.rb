@@ -15,7 +15,10 @@ ROOMS = {
 
 GIT_COMMUNICATION_CONFIG = {
   "business" => [ROOMS["App"], ROOMS["UI"]],
-  "indix.com" => [ROOMS["UI"]]
+  "indix.com" => [ROOMS["UI"]],
+  "apeiron" => [ROOMS["Analytics"]],
+  "analytics-service" => [ROOMS["Analytics"]],
+  "analytics-jobs" => [ROOMS["Analytics"]]
 }
 
 class GitUpdate
