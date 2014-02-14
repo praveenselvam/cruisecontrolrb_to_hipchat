@@ -14,6 +14,7 @@ ROOMS = {
 } 
 
 GIT_COMMUNICATION_CONFIG = {
+  "hook-bot" => [ROOMS["Git Integ Test"]],
   "business" => [ROOMS["App"], ROOMS["UI"]],
   "indix.com" => [ROOMS["UI"]],
   "apeiron" => [ROOMS["Analytics"]],
@@ -22,6 +23,8 @@ GIT_COMMUNICATION_CONFIG = {
   "oogway" => [ROOMS["Analytics"]],
   "tao" => [ROOMS["Analytics"]]
 }
+
+ENV["GIT_FROM"] = "ind9"
 
 class GitUpdate
   
@@ -38,7 +41,7 @@ class GitUpdate
     end
 
     GIT_COMMUNICATION_CONFIG[repo_name].each do |room_id|
-      Hipchat.new.hip_post room_id, message, "gray"
+      Hipchat.new.hip_post ENV["GIT_FROM"], room_id, message, "gray"
     end
   end
     
