@@ -18,6 +18,7 @@ GIT_COMMUNICATION_CONFIG = {
   "business" => [ROOMS["App"], ROOMS["UI"]],
   "indix.com" => [ROOMS["UI"]],
   "forge-ui" => [ROOMS["UI"]],
+  "phoenix" => [ROOMS["UI"], ROOMS["Product Score"]],
   "apeiron" => [ROOMS["Analytics"]],
   "analytics-service" => [ROOMS["Analytics"]],
   "analytics-jobs" => [ROOMS["Analytics"]],
