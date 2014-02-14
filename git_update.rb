@@ -27,6 +27,8 @@ GIT_COMMUNICATION_CONFIG = {
 }
 
 class GitUpdate
+
+  ENV["GIT_FROM"] = "ind9"
   
   def notify payload
     commiter = payload["pusher"]["name"]
@@ -41,7 +43,7 @@ class GitUpdate
     end
 
     GIT_COMMUNICATION_CONFIG[repo_name].each do |room_id|
-      Hipchat.new.hip_post room_id, message, "gray"
+      Hipchat.new.hip_post room_id, message, ENV["GIT_FROM"], "gray"
     end
   end
     
