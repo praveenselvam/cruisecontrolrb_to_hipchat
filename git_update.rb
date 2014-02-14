@@ -27,14 +27,12 @@ GIT_COMMUNICATION_CONFIG = {
 }
 
 class GitUpdate
-
-  ENV["GIT_FROM"] = "ind9"
   
   def notify payload
     commiter = payload["pusher"]["name"]
     repo_name = payload["repository"]["name"]
     commit_counts = payload["commits"].length
-    message = "#{commiter} pushed #{commit_counts} #{commit_counts > 1 ? "commits" : "commit"} to #{repo_name}"
+    message = "Pushed #{commit_counts} #{commit_counts > 1 ? "commits" : "commit"} to \"#{repo_name}\""
     payload["commits"].each do |commit|
       commit_message = commit["message"]
       commit_url = commit["url"]
@@ -43,7 +41,7 @@ class GitUpdate
     end
 
     GIT_COMMUNICATION_CONFIG[repo_name].each do |room_id|
-      Hipchat.new.hip_post room_id, message, ENV["GIT_FROM"], "gray"
+      Hipchat.new.hip_post room_id, message, commiter, "gray"
     end
   end
     
