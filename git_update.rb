@@ -36,7 +36,7 @@ class GitUpdate
       commit_message = commit["message"]
       commit_url = commit["url"]
       commit_hash = commit["id"][0..9]
-      message += "<br/>- #{commit_message} (<a href='#{commit_url}'>#{commit_hash})</a>"
+      message += "<br/>- #{commit_message} (<a href='#{commit_url}'>#{commit_hash}</a>)"
     end
 
     GIT_COMMUNICATION_CONFIG[repo_name].each do |room_id|
