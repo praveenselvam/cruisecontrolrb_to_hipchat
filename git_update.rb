@@ -14,6 +14,7 @@ ROOMS = {
 } 
 
 GIT_COMMUNICATION_CONFIG = {
+  "hook-bot" => [ROOMS["Git Integ Test"]],
   "business" => [ROOMS["App"], ROOMS["UI"]],
   "indix.com" => [ROOMS["UI"]],
   "apeiron" => [ROOMS["Analytics"]],
