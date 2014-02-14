@@ -34,8 +34,9 @@ class GitUpdate
     message = "#{commiter} pushed #{commit_counts} #{commit_counts > 1 ? "commits" : "commit"} to #{repo_name}"
     payload["commits"].each do |commit|
       commit_message = commit["message"]
+      commit_url = commit["url"]
       commit_hash = commit["id"][0..9]
-      message += "<br/>- #{commit_message} (#{commit_hash})"
+      message += "<br/>- #{commit_message} (<a href='#{commit_url}'>#{commit_hash})</a>"
     end
 
     GIT_COMMUNICATION_CONFIG[repo_name].each do |room_id|
