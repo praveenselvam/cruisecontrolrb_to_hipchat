@@ -36,7 +36,7 @@ class GitUpdate
     payload["commits"].each do |commit|
       commit_message = commit["message"]
       commit_url = commit["url"]
-      commit_hash = commit["id"][0..9]
+      commit_hash = commit["id"][0..6]
       message += "<br/>- #{commit_message} (<a href='#{commit_url}'>#{commit_hash}</a>)"
     end
 
