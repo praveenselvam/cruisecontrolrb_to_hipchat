@@ -10,12 +10,13 @@ ROOMS = {
   "Product Score" => "433742",
   "Analytics" => "225998",
   "App" => "439155",
-  "UI" => "225942"
+  "UI" => "225942",
+  "Apeiron - Migration - Dev" => "457088"
 } 
 
 GIT_COMMUNICATION_CONFIG = {
   "hook-bot" => [ROOMS["Git Integ Test"]],
-  "business" => [ROOMS["App"], ROOMS["UI"]],
+  "business" => [ROOMS["App"], ROOMS["UI"], ROOMS["Apeiron - Migration - Dev"]],
   "indix.com" => [ROOMS["UI"]],
   "forge-ui" => [ROOMS["UI"]],
   "phoenix" => [ROOMS["UI"], ROOMS["Product Score"]],

@@ -18,7 +18,8 @@ ROOMS = {
   "Product Score" => "433742",
   "Analytics" => "225998",
   "App" => "439155",
-  "UI" => "225942"
+  "UI" => "225942",
+  "Apeiron - Migration - Dev" => "457088"
 } 
 
 COMMUNICATION_TO_CONFIGURE = [{
